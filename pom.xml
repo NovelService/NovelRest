@@ -12,13 +12,15 @@
     <artifactId>NovelService</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>NovelService</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Web service to web novel into pdfs</description>
+
     <properties>
         <java.version>11</java.version>
         <kotlin.version>1.4.32</kotlin.version>
         <spring-cloud-gcp.version>2.0.0</spring-cloud-gcp.version>
         <spring-cloud.version>2020.0.2</spring-cloud.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -60,6 +62,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
