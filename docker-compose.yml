@@ -1,0 +1,17 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres:13.2-alpine
+    restart: always
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=novel
+      - POSTGRES_PASSWORD=novel
+      - POSTGRES_DB=novel
+    ports:
+      - 5432:5432
+
+volumes:
+  postgresdata:
+
