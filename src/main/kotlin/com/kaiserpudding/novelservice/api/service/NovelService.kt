@@ -6,6 +6,6 @@ import com.kaiserpudding.novelservice.api.dto.TriggerResult
 import java.util.*
 
 interface NovelService {
-    fun trigger(config: TriggerConfig): TriggerResult
+    fun trigger(triggerConfig: TriggerConfig): TriggerResult
     fun get(id: UUID): Novel?
 }
