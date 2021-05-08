@@ -28,7 +28,7 @@ class NovelServiceImpl(
     override fun trigger(triggerConfig: TriggerConfig): TriggerResult {
         val result = novelRepository.save(NovelEntity())
 
-        val message = NovelConfigMessage(result.id, triggerConfig.url, triggerConfig.tableOfContents)
+        val message = NovelConfigMessage(result.id.toString(), triggerConfig.url, triggerConfig.tableOfContents)
         LOG.info("Sending message to default queue. $message")
         jmsTemplate.convertAndSend(message)
 
