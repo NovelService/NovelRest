@@ -39,7 +39,7 @@ class JpaConfigurator {
     @Bean
     fun dataSource(): DataSource {
         val dataSource = DriverManagerDataSource()
-        val dbConfig = configManager.config.dbConfig
+        val dbConfig = configManager.config.db
         dataSource.setDriverClassName("org.postgresql.Driver")
         dataSource.url = dbConfig.url
         dataSource.username = dbConfig.username

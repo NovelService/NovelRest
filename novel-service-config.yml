@@ -1,4 +1,9 @@
-dbConfig:
+db:
   url: jdbc:postgresql://localhost:5432/novel
   username: novel
   password: novel
+
+amq:
+  url: tcp://localhost:61616
+  username: admin
+  password: admin
