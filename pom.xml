@@ -19,6 +19,7 @@
         <kotlin.version>1.4.32</kotlin.version>
         <spring-cloud-gcp.version>2.0.0</spring-cloud-gcp.version>
         <spring-cloud.version>2020.0.2</spring-cloud.version>
+        <hoplite.version>1.4.0</hoplite.version>
     </properties>
 
     <dependencies>
@@ -60,6 +61,19 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <!--  Config  -->
+        <dependency>
+            <groupId>com.sksamuel.hoplite</groupId>
+            <artifactId>hoplite-core</artifactId>
+            <version>${hoplite.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sksamuel.hoplite</groupId>
+            <artifactId>hoplite-yaml</artifactId>
+            <version>${hoplite.version}</version>
         </dependency>
     </dependencies>
 
