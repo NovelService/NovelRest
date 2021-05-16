@@ -5,10 +5,11 @@ import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
-class Downloader{
+class Downloader {
     suspend fun download(url: String): String {
+        @Suppress("BlockingMethodInNonBlockingContext")
         return withContext(Dispatchers.IO) {
-            val process = ProcessBuilder("cmd.exe", "/c", "readability \"$url\"")
+            val process = ProcessBuilder("cmd.exe", "/c", "readable \"$url\"")
                 .start()
             val reader = BufferedReader(InputStreamReader(process.inputStream))
             return@withContext reader.readText()

@@ -3,6 +3,7 @@ package com.kaiserpudding.novelservice.worker
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import org.jsoup.Jsoup
+import org.slf4j.LoggerFactory
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileWriter
@@ -14,16 +15,17 @@ class Extractor {
     private val downloader by lazy { Downloader() }
 
     suspend fun extractSingle(url: String, file: File) {
+        LOG.info("Start extracting single from url '$url'")
         val content = downloader.download(url)
+        LOG.info("Start writing single content from url '$url'")
         writeContent(content, file)
     }
 
-    suspend fun writeContent(content: String, file: File) {
+    private suspend fun writeContent(content: String, file: File) {
+        @Suppress("BlockingMethodInNonBlockingContext")
         withContext(Dispatchers.IO) {
             val writer = FileWriter(file)
-            writer.write("<html><body>")
             writer.write(content)
-            writer.write("</body></html>")
             writer.flush()
             writer.close()
         }
@@ -49,7 +51,10 @@ class Extractor {
         GlobalScope.launch {
             downloadInfos.forEach {
                 if (!folder.exists()) folder.mkdir()
-                extractSingle(it.url, File(folder.path + File.separator + it.name.replaceInvalidFilenameChar() + ".html"))
+                extractSingle(
+                    it.url,
+                    File(folder.path + File.separator + it.name.replaceInvalidFilenameChar() + ".html")
+                )
                 channel.send(it.name)
                 delay(waitTime)
             }
@@ -62,6 +67,7 @@ class Extractor {
         link: String,
         regex: Regex = DEFAULT_CHAPTER_REGEX
     ): List<DownloadInfo> {
+        @Suppress("BlockingMethodInNonBlockingContext")
         return withContext(Dispatchers.IO) {
             val result: MutableList<DownloadInfo> = mutableListOf()
 
@@ -92,7 +98,9 @@ class Extractor {
         }
     }
 
+    @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun convert(filename: String, toFormat: String, folder: File) = withContext(Dispatchers.IO) {
+        LOG.info("Start conversion of file '$filename' to format '$toFormat'")
         val process = ProcessBuilder("cmd.exe", "/c", "ebook-convert $filename.html $filename.$toFormat")
             .directory(folder)
             .start()
@@ -108,5 +116,7 @@ class Extractor {
         private const val HTML_HREF_ATTR = "href"
         private const val USER_AGENT =
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0"
+
+        private val LOG = LoggerFactory.getLogger(Extractor::class.java)
     }
 }
