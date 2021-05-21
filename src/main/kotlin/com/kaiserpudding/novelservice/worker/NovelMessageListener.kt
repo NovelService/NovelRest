@@ -43,13 +43,15 @@ class NovelMessageListener(
                 extractor.convert(file.nameWithoutExtension, "epub", tmpDir.toFile())
 
                 val fileId = fileService.saveNovel(file)
+
+                LOG.info("Updating novel with id '${config.novelId}' with file id '$fileId'")
                 val novel = novelRepository.findById(UUID.fromString(config.novelId))
                 novel.ifPresentOrElse(
                     {
                         it.fileId = fileId
                         novelRepository.save(it)
                     },
-                    { LOG.error("File with id '${config.novelId}' was not found") }
+                    { LOG.error("Novel with id '${config.novelId}' was not found") }
                 )
             }
         }
