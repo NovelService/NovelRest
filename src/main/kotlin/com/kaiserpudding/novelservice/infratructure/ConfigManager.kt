@@ -18,7 +18,7 @@ class ConfigManager {
     final val config: Config
 
     init {
-        val file = Path.of(System.getenv(NOVEL_CONFIG_FILE_KEY))
+        val file = Path.of(System.getProperty(NOVEL_CONFIG_FILE_KEY))
         config = ConfigLoader().loadConfigOrThrow(file)
     }
 }

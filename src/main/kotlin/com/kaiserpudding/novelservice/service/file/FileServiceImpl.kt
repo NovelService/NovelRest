@@ -46,6 +46,6 @@ class FileServiceImpl : FileService {
     }
 
     private fun resolveNovelFolder(): Path {
-        return Path.of(System.getenv(NOVEL_FOLDER_KEY))
+        return Path.of(System.getProperty(NOVEL_FOLDER_KEY))
     }
 }

@@ -8,7 +8,7 @@ Start the dependencies declared in docker-compose.yml by runnign `docker compose
 Then run the application inside your preferred IDE
 
 ### Run configuration
-Run with the environment variable set to 
+Run with the system property variables set to below values by passing in the VM arguments with `-D{key}={value}`
 
 |key|value|description|
 |---|---|---|
