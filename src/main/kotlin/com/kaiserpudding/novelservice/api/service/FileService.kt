@@ -6,5 +6,5 @@ interface FileService {
 
     fun saveNovel(file: Path): String
 
-    fun getNovel(id: String): Path
+    fun getNovel(id: String): Path?
 }

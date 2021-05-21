@@ -9,6 +9,7 @@ import kotlin.io.path.copyTo
 import kotlin.io.path.createDirectories
 import kotlin.io.path.extension
 import kotlin.io.path.isRegularFile
+import kotlin.io.path.notExists
 
 @ExperimentalPathApi
 @Service
@@ -30,8 +31,14 @@ class FileServiceImpl : FileService {
         return filename
     }
 
-    override fun getNovel(id: String): Path {
-        return resolveNovelFolder().resolve(id)
+    override fun getNovel(id: String): Path? {
+        val file = resolveNovelFolder().resolve(id)
+
+        if (file.notExists()) {
+            return null
+        }
+
+        return file
     }
 
     private fun resolveNovelFolder(): Path {
