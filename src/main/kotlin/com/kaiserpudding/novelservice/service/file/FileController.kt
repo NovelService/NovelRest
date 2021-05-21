@@ -27,13 +27,14 @@ class FileController(
     }
 
     @GetMapping("/{id}")
-    fun downloadFile(@PathVariable(name = "id") id: String) : ResponseEntity<Resource> {
+    fun downloadFile(@PathVariable(name = "id") id: String): ResponseEntity<Resource> {
         LOG.info("GET file/$id")
         val file = fileService.getNovel(id) ?: return ResponseEntity.notFound().build()
 
         val resource = InputStreamResource(file.inputStream())
 
         return ResponseEntity.ok()
+            .header("Content-Disposition", "attachment; filename=$id")
             .contentLength(file.fileSize())
             .contentType(MediaType.APPLICATION_OCTET_STREAM)
             .body(resource)
