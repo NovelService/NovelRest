@@ -17,10 +17,9 @@ import javax.sql.DataSource
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = ["com.kaiserpudding.novelservice"])
-class JpaConfigurator {
-
-    @Autowired
-    private lateinit var configManager: ConfigManager
+class JpaConfigurator(
+    @Autowired private var configManager: ConfigManager
+) {
 
     @Bean
     fun entityManagerFactory(): LocalContainerEntityManagerFactoryBean {

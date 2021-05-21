@@ -11,8 +11,7 @@ import java.nio.file.Path
 class ConfigManager {
 
     companion object {
-        private const val NOVEL_CONFIG_FILE_KEY = "NOVEL_SERVICE_CONFIG_FILE"
-
+        const val NOVEL_CONFIG_FILE_KEY = "NOVEL_SERVICE_CONFIG_FILE"
     }
 
     final val config: Config
