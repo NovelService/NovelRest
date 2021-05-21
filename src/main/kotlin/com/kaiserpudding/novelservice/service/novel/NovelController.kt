@@ -1,4 +1,4 @@
-package com.kaiserpudding.novelservice.service
+package com.kaiserpudding.novelservice.service.novel
 
 import com.kaiserpudding.novelservice.api.dto.Novel
 import com.kaiserpudding.novelservice.api.dto.TriggerConfig
