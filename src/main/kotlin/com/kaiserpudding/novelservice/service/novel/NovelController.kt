@@ -16,7 +16,7 @@ import java.util.*
 
 @RestController
 @RequestMapping("/novel")
-class NovelController(@Autowired val novelService: NovelService) {
+class NovelController(@Autowired private val novelService: NovelService) {
 
     companion object {
         private val LOG = LoggerFactory.getLogger(NovelController::class.java)
