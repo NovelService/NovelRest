@@ -37,12 +37,12 @@ class NovelMessageListener(
             } else {
                 LOG.info("Single download starting")
                 val tmpDir = Files.createTempDirectory("novel")
-                val file = Files.createTempFile(tmpDir, "novel", ".html")
+                val tmpFile = Files.createTempFile(tmpDir, "novel", ".html")
 
-                extractor.extractSingle(config.url, file.toFile())
-                extractor.convert(file.nameWithoutExtension, "epub", tmpDir.toFile())
+                extractor.extractSingle(config.url, tmpFile.toFile())
+                val resultFile = extractor.convert(tmpFile.nameWithoutExtension, "epub", tmpDir.toFile())
 
-                val fileId = fileService.saveNovel(file)
+                val fileId = fileService.saveNovel(resultFile)
 
                 LOG.info("Updating novel with id '${config.novelId}' with file id '$fileId'")
                 val novel = novelRepository.findById(UUID.fromString(config.novelId))

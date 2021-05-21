@@ -9,6 +9,7 @@ import java.io.File
 import java.io.FileWriter
 import java.io.InputStreamReader
 import java.net.URL
+import java.nio.file.Path
 
 class Extractor {
 
@@ -99,14 +100,19 @@ class Extractor {
     }
 
     @Suppress("BlockingMethodInNonBlockingContext")
-    suspend fun convert(filename: String, toFormat: String, folder: File) = withContext(Dispatchers.IO) {
-        LOG.info("Start conversion of file '$filename' to format '$toFormat'")
-        val process = ProcessBuilder("cmd.exe", "/c", "ebook-convert $filename.html $filename.$toFormat")
-            .directory(folder)
-            .start()
-        val reader = BufferedReader(InputStreamReader(process.inputStream))
-        reader.forEachLine { println(it) }
-        reader.close()
+    suspend fun convert(filename: String, toFormat: String, folder: File): Path {
+        return withContext(Dispatchers.IO) {
+            LOG.info("Start conversion of file '$filename' to format '$toFormat'")
+            val resultFileName = "$filename.$toFormat"
+            val process = ProcessBuilder("cmd.exe", "/c", "ebook-convert $filename.html $resultFileName")
+                .directory(folder)
+                .start()
+            val reader = BufferedReader(InputStreamReader(process.inputStream))
+            reader.forEachLine { println(it) }
+            reader.close()
+
+            return@withContext folder.toPath().resolve(resultFileName)
+        }
     }
 
     companion object {
