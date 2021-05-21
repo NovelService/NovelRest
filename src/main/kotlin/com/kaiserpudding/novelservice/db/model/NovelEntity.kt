@@ -19,5 +19,5 @@ data class NovelEntity(
     var status: String = "received",
 
     @Column
-    var downloadUrl: String? = null
+    var fileId: String? = null
 )

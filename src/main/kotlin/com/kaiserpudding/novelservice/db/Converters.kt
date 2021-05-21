@@ -8,7 +8,7 @@ import java.util.*
 fun Optional<NovelEntity>.toNovel(): Novel? {
     return if (isPresent) {
         val novel = get()
-        Novel(novel.status, novel.downloadUrl)
+        Novel(novel.id.toString(), novel.status, novel.fileId)
     } else {
         null
     }

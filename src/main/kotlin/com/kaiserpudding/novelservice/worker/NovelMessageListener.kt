@@ -46,7 +46,7 @@ class NovelMessageListener(
                 val novel = novelRepository.findById(UUID.fromString(config.novelId))
                 novel.ifPresentOrElse(
                     {
-                        it.downloadUrl = fileId
+                        it.fileId = fileId
                         novelRepository.save(it)
                     },
                     { LOG.error("File with id '${config.novelId}' was not found") }
