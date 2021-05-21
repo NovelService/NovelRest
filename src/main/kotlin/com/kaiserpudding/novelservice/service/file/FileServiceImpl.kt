@@ -30,8 +30,8 @@ class FileServiceImpl : FileService {
         return filename
     }
 
-    override fun getNovel(filename: String): Path {
-        return resolveNovelFolder().resolve(filename)
+    override fun getNovel(id: String): Path {
+        return resolveNovelFolder().resolve(id)
     }
 
     private fun resolveNovelFolder(): Path {

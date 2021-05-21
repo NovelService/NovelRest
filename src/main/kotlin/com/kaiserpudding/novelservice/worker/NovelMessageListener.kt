@@ -1,7 +1,8 @@
 package com.kaiserpudding.novelservice.worker
 
 import com.kaiserpudding.novelservice.api.jms.NovelConfigMessage
-import com.kaiserpudding.novelservice.api.service.NovelService
+import com.kaiserpudding.novelservice.api.service.FileService
+import com.kaiserpudding.novelservice.db.NovelRepository
 import com.kaiserpudding.novelservice.infratructure.AmqConfigurator
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
@@ -9,9 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.jms.annotation.JmsListener
 import org.springframework.stereotype.Component
 import java.nio.file.Files
+import java.util.*
+import kotlin.io.path.ExperimentalPathApi
+import kotlin.io.path.nameWithoutExtension
 
+@ExperimentalPathApi
 @Component
-class NovelMessageListener(@Autowired val novelService: NovelService) {
+class NovelMessageListener(
+    @Autowired private val novelRepository: NovelRepository,
+    @Autowired private val fileService: FileService
+) {
 
     companion object {
         private val LOG = LoggerFactory.getLogger(NovelMessageListener::class.java)
@@ -30,9 +38,19 @@ class NovelMessageListener(@Autowired val novelService: NovelService) {
                 LOG.info("Single download starting")
                 val tmpDir = Files.createTempDirectory("novel")
                 val file = Files.createTempFile(tmpDir, "novel", ".html")
-                LOG.info(file.toAbsolutePath().toString())
+
                 extractor.extractSingle(config.url, file.toFile())
-                extractor.convert(file.toFile().nameWithoutExtension, "epub", tmpDir.toFile())
+                extractor.convert(file.nameWithoutExtension, "epub", tmpDir.toFile())
+
+                val fileId = fileService.saveNovel(file)
+                val novel = novelRepository.findById(UUID.fromString(config.novelId))
+                novel.ifPresentOrElse(
+                    {
+                        it.downloadUrl = fileId
+                        novelRepository.save(it)
+                    },
+                    { LOG.error("File with id '${config.novelId}' was not found") }
+                )
             }
         }
     }
