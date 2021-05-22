@@ -1,9 +1,9 @@
 package com.kaiserpudding.novelservice.service.novel
 
+import com.kaiserpudding.novel.worker.api.NovelConfigMessage
 import com.kaiserpudding.novelservice.api.dto.Novel
 import com.kaiserpudding.novelservice.api.dto.TriggerConfig
 import com.kaiserpudding.novelservice.api.dto.TriggerResult
-import com.kaiserpudding.novelservice.api.jms.NovelConfigMessage
 import com.kaiserpudding.novelservice.api.service.NovelService
 import com.kaiserpudding.novelservice.db.NovelRepository
 import com.kaiserpudding.novelservice.db.model.NovelEntity
