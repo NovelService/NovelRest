@@ -9,10 +9,13 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.jms.annotation.JmsListener
 import org.springframework.stereotype.Component
+import java.lang.Exception
 import java.nio.file.Files
+import java.nio.file.attribute.PosixFilePermission
 import java.util.*
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.nameWithoutExtension
+import kotlin.io.path.setPosixFilePermissions
 
 @ExperimentalPathApi
 @Component
@@ -31,30 +34,39 @@ class NovelMessageListener(
     fun processNovel(config: NovelConfigMessage) {
         LOG.info("Received novel job with config: '$config'")
 
-        runBlocking {
-            if (config.tableOfContents) {
-                LOG.info("Multi download not implemented yet")
-            } else {
-                LOG.info("Single download starting")
-                val tmpDir = Files.createTempDirectory("novel")
-                val tmpFile = Files.createTempFile(tmpDir, "novel", ".html")
+        try {
 
-                extractor.extractSingle(config.url, tmpFile.toFile())
-                val resultFile = extractor.convert(tmpFile.nameWithoutExtension, "epub", tmpDir.toFile())
+            runBlocking {
+                if (config.tableOfContents) {
+                    LOG.info("Multi download not implemented yet")
+                } else {
+                    LOG.info("Single download starting")
+                    val tmpDir = Files.createTempDirectory("novel")
+                    val tmpFile = Files.createTempFile(tmpDir, "novel", ".html")
+                    val permissions = PosixFilePermission.values().toSet()
+                    tmpDir.setPosixFilePermissions(permissions)
+                    tmpFile.setPosixFilePermissions(permissions)
 
-                val fileId = fileService.saveNovel(resultFile)
+                    extractor.extractSingle(config.url, tmpFile.toFile())
+                    val resultFile = extractor.convert(tmpFile.nameWithoutExtension, "epub", tmpDir.toFile())
 
-                LOG.info("Updating novel with id '${config.novelId}' with file id '$fileId'")
-                val novel = novelRepository.findById(UUID.fromString(config.novelId))
-                novel.ifPresentOrElse(
-                    {
-                        it.fileId = fileId
-                        novelRepository.save(it)
-                    },
-                    { LOG.error("Novel with id '${config.novelId}' was not found") }
-                )
+                    val fileId = fileService.saveNovel(resultFile)
+
+                    LOG.info("Updating novel with id '${config.novelId}' with file id '$fileId'")
+                    val novel = novelRepository.findById(UUID.fromString(config.novelId))
+                    novel.ifPresentOrElse(
+                        {
+                            it.fileId = fileId
+                            novelRepository.save(it)
+                        },
+                        { LOG.error("Novel with id '${config.novelId}' was not found") }
+                    )
+                }
             }
+        } catch (e: Exception) {
+            LOG.error("Failed novel job with config: '$config'")
         }
+
     }
 
 }
