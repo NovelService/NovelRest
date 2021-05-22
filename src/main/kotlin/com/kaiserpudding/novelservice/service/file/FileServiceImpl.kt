@@ -8,6 +8,7 @@ import java.util.*
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.copyTo
+import kotlin.io.path.createDirectories
 import kotlin.io.path.extension
 import kotlin.io.path.isRegularFile
 import kotlin.io.path.notExists
@@ -18,8 +19,13 @@ class FileServiceImpl : FileService {
 
     companion object {
         private const val NOVEL_FOLDER_KEY = "NOVEL_FOLDER_KEY"
+        private const val DEFAULT_NOVEL_FOLDER = "/novel"
 
         private val LOG = LoggerFactory.getLogger(FileServiceImpl::class.java)
+    }
+
+    init {
+        resolveNovelFolder().createDirectories()
     }
 
     override fun saveNovel(file: Path): String {
@@ -46,6 +52,6 @@ class FileServiceImpl : FileService {
     }
 
     private fun resolveNovelFolder(): Path {
-        return Path.of(System.getProperty(NOVEL_FOLDER_KEY))
+        return Path.of(System.getProperty(NOVEL_FOLDER_KEY, DEFAULT_NOVEL_FOLDER))
     }
 }
