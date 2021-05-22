@@ -9,8 +9,15 @@ class Downloader {
     suspend fun download(url: String): String {
         @Suppress("BlockingMethodInNonBlockingContext")
         return withContext(Dispatchers.IO) {
-            val process = ProcessBuilder("cmd.exe", "/c", "readable \"$url\"")
-                .start()
+            val isWindows = System.getProperty("os.name")
+                .toLowerCase().startsWith("windows")
+            val process = if (isWindows) {
+                ProcessBuilder("cmd.exe", "/c", "readable \"$url\"")
+                    .start()
+            } else {
+                ProcessBuilder("sh", "-c", "readable \"$url\"")
+                    .start()
+            }
             val reader = BufferedReader(InputStreamReader(process.inputStream))
             return@withContext reader.readText()
         }

@@ -102,11 +102,19 @@ class Extractor {
     @Suppress("BlockingMethodInNonBlockingContext")
     suspend fun convert(filename: String, toFormat: String, folder: File): Path {
         return withContext(Dispatchers.IO) {
-            LOG.info("Start conversion of file '$filename' to format '$toFormat'")
+            LOG.info("Start conversion of file '$filename' to format '$toFormat' in folder '$folder'")
             val resultFileName = "$filename.$toFormat"
-            val process = ProcessBuilder("cmd.exe", "/c", "ebook-convert $filename.html $resultFileName")
-                .directory(folder)
-                .start()
+            val isWindows = System.getProperty("os.name")
+                .toLowerCase().startsWith("windows")
+            val process = if (isWindows) {
+                ProcessBuilder("cmd.exe", "/c", "ebook-convert $filename.html $resultFileName")
+                    .directory(folder)
+                    .start()
+            } else {
+                ProcessBuilder("sh", "-c", "ebook-convert $filename.html $resultFileName")
+                    .directory(folder)
+                    .start()
+            }
             val reader = BufferedReader(InputStreamReader(process.inputStream))
             reader.forEachLine { println(it) }
             reader.close()
