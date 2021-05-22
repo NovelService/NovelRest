@@ -3,6 +3,7 @@ services:
   postgres:
     image: postgres:13.2-alpine
     restart: always
+    hostname: postgres
     volumes:
       - postgresdata:/var/lib/postgresql/data
     environment:
@@ -14,10 +15,22 @@ services:
   amq:
     image: rmohr/activemq:5.15.9-alpine
     restart: always
+    hostname: amq
     ports:
       - 61616:61616
       - 8161:8161
 
+  novel-service:
+    image: kaiserpudding/novel-service:latest
+    restart: always
+    volumes:
+      - C:/Users/kaiserpudding/projects/NovelService/data:/novel
+      - C:/Users/kaiserpudding/projects/NovelService/config:/config
+    ports:
+      - 8080:8080
+      - 5005:5005
+
 volumes:
   postgresdata:
+  novel:
 

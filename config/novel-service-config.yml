@@ -1,0 +1,9 @@
+db:
+  url: jdbc:postgresql://postgres:5432/novel
+  username: novel
+  password: novel
+
+amq:
+  url: tcp://amq:61616
+  username: admin
+  password: admin

@@ -8,8 +8,9 @@
         <version>2.4.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>com.kaiserpudding</groupId>
-    <artifactId>NovelService</artifactId>
+    <artifactId>novel-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>NovelService</name>
     <description>Web service to web novel into pdfs</description>
@@ -125,6 +126,22 @@
                         <version>${kotlin.version}</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+
+
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.35.0</version>
+                <executions>
+                    <execution>
+                        <id>docker:build</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
