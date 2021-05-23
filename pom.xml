@@ -45,7 +45,7 @@
             <dependency>
                 <groupId>com.github.NovelService.NovelWorker</groupId>
                 <artifactId>novel-worker-api</artifactId>
-                <version>dfff744f5cd903bc62897de54d476fca68c9bfe3</version>
+                <version>bf59966b0335882ba1cb86cabe151c2ef7d24a15</version>
             </dependency>
 
             <!-- Kotlin -->
