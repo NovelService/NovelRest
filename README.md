@@ -1,3 +1,12 @@
+# Novel Rest
+
+[![CI](https://github.com/NovelService/NovelRest/actions/workflows/ci.yml/badge.svg?branch=master&event=push)](https://github.com/NovelService/NovelRest/actions/workflows/ci.yml)
+![Docker Pulls](https://img.shields.io/docker/pulls/xiangronglin/novel-rest)
+
+## Description
+The public API for the Novel Service.
+Allows to trigger the worker and fetch novels after they are finished
+
 ## Dev Environment
 ### Docker compose
 In the project root create a file `.env` which contains variables needed for docker compose.
