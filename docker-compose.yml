@@ -2,6 +2,7 @@ version: '3.9'
 services:
   postgres:
     image: postgres:13.2-alpine
+    hostname: postgres
     restart: always
     volumes:
       - postgresdata:/var/lib/postgresql/data
@@ -13,10 +14,18 @@ services:
       - 5432:5432
   amq:
     image: rmohr/activemq:5.15.9-alpine
+    hostname: amq
     restart: always
     ports:
       - 61616:61616
       - 8161:8161
+
+  novel-worker:
+    image: xiangronglin/novel-worker:latest
+    restart: always
+    volumes:
+      - ${project_root}/data:/novel
+      - ${project_root}/config/novel-worker:/config
 
 volumes:
   postgresdata:

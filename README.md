@@ -1,10 +1,11 @@
 ## Dev Environment
-### Required CLI tools
-- `readability`: install with `npm i readability-cli --global`
-- `ebook-convert`: install from https://calibre-ebook.com/download
-
 ### Docker compose
-Start the dependencies declared in docker-compose.yml by runnign `docker compose up -d`
+In the project root create a file `.env` which contains variables needed for docker compose.
+
+|key|value|description|
+|---|---|---|
+|project_root|<path-to-repo>|The full path to the repository without trailing slash|
+Start the dependencies declared in docker-compose.yml by runnign `docker compose up -d`  
 Then run the application inside your preferred IDE
 
 ### Run configuration

@@ -1,0 +1,4 @@
+amq:
+  url: tcp://amq:61616
+  username: admin
+  password: admin
