@@ -14,6 +14,7 @@ In the project root create a file `.env` which contains variables needed for doc
 |key|value|description|
 |---|---|---|
 |project_root|<path-to-repo>|The full path to the repository without trailing slash|
+  
 Start the dependencies declared in docker-compose.yml by running `docker compose up -d`  
 Then run the application inside your preferred IDE
 
