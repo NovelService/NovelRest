@@ -1,7 +1,7 @@
 # Novel Rest
 
 [![CI](https://github.com/NovelService/NovelRest/actions/workflows/ci.yml/badge.svg?branch=master&event=push)](https://github.com/NovelService/NovelRest/actions/workflows/ci.yml)
-![Docker Pulls](https://img.shields.io/docker/pulls/xiangronglin/novel-rest)
+[![Docker Pulls](https://img.shields.io/docker/pulls/xiangronglin/novel-rest)](https://hub.docker.com/repository/docker/xiangronglin/novel-rest)
 
 ## Description
 The public API for the Novel Service.
