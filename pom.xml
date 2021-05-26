@@ -22,6 +22,7 @@
         <spring.boot.version>2.4.5</spring.boot.version>
         <postgresql.version>42.2.20</postgresql.version>
         <jackson.version>2.11.4</jackson.version>
+        <jaxb.version>2.3.4</jaxb.version>
 
         <kotlin.version>1.4.32</kotlin.version>
 
@@ -98,6 +99,13 @@
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${postgresql.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-runtime</artifactId>
+                <version>${jaxb.version}</version>
                 <scope>runtime</scope>
             </dependency>
 
